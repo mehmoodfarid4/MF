@@ -8,15 +8,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    env:
-      ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: "node24"
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set up Java 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -27,8 +25,14 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Scaffold Android Files
-        run: flutter create . --platforms=android
+      # Generates standard Android Gradle wrapper files if missing
+      - name: Generate Android Scaffolding
+        run: |
+          flutter create . --platforms=android --org com.example
+
+      # Accept Android licenses automatically
+      - name: Accept Android Licenses
+        run: yes | flutter doctor --android-licenses || true
 
       - name: Install Dependencies
         run: flutter pub get
@@ -36,7 +40,7 @@ jobs:
       - name: Build Release APK
         run: flutter build apk --release
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: CampDesk-Release-APK
