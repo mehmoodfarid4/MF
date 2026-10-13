@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      ACTIONS_RUNNER_FORCE_ACTIONS_NODE_VERSION: "node24"
 
     steps:
       - name: Checkout Repository
