@@ -18,6 +18,12 @@
         android:label="CampDesk Mobile"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- Forces Flutter v2 Embedding -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
